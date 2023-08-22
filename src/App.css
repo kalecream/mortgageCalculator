@@ -5,6 +5,31 @@
   text-align: center;
 }
 
+button {
+  margin-bottom: 3rem;;
+}
+
+fieldset:has(fieldset) {
+  border-radius: 3px;
+}
+
+fieldset fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+  width: 100%;
+  margin: 1.5rem auto;
+}
+
+fieldset :hover {
+  cursor: pointer;
+}
+
+legend {
+  font-size: 1.2rem;
+  font-weight: semibold;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
