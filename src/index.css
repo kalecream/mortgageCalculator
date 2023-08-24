@@ -95,19 +95,3 @@ fieldset > * {
   margin-top: 0.5rem;
   color: #646cff;
 }
-
-input {
-  border: none;
-  border-bottom: 1px solid var(--border-lines);
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  color: inherit;
-  transition: border-color 0.25s;
-}
-
-label {
-  color: var(--label-color);
-  font-size: 0.8rem;
-  
-}

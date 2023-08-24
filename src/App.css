@@ -14,11 +14,37 @@ fieldset:has(fieldset) {
 }
 
 fieldset fieldset {
+  display: flex;
   margin: 0;
   padding: 0;
   border: none;
   width: 100%;
   margin: 1.5rem auto;
+}
+
+fieldset {
+  position: relative;
+  padding: 1rem;
+  margin: 1rem auto;
+  border-radius: 5px;
+  border: dashed 1px var(--border-lines);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+fieldset div {
+  flex: 1 1 40px;
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+}
+
+fieldset div input {
+  width: 45%;
+  margin: 1rem;
+  padding: 0.5rem;
+  text-align: center;
 }
 
 fieldset :hover {
@@ -28,6 +54,41 @@ fieldset :hover {
 legend {
   font-size: 1.2rem;
   font-weight: semibold;
+}
+
+input {
+  border: none;
+  border-bottom: 1px solid var(--border-lines);
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  color: inherit;
+  transition: border-color 0.25s;
+}
+
+img {
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+}
+
+label {
+  color: var(--label-color);
+  font-size: 0.8rem;
+  
+}
+
+section {
+  width: 100%;
+  display: flex;
+  margin: 0 auto;
+}
+
+div {
+  margin: 0 auto;;
 }
 
 .logo {
