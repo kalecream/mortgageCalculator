@@ -1,8 +1,9 @@
 
 
 interface NHTDetails {
-  loan: string;
+  loan: boolean;
   interest: number;
+  loanAmount: number;
   loanTerm: number;
   loanMonthly: number;
   loanYearly?: number;
@@ -12,8 +13,9 @@ interface NHTDetails {
 }
 
 interface BankDetails {
-  loan: string;
+  loan: boolean;
   interest: number;
+  loanAmount: number;
   loanTerm: number;
   loanMonthly: number;
   loanYearly?: number;
@@ -23,6 +25,7 @@ interface BankDetails {
 
 interface HousingCosts {
   cost: number;
+  totalDeposit: number;
   transferTax: number;
   stampduty: number;
   legalFees: number;
@@ -34,7 +37,6 @@ interface HousingCosts {
 
 interface FormDetails {
   contributors: number;
-  housingCost: number;
   persons: ContributorDetails[];
   house: HousingCosts;
 }
