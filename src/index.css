@@ -69,29 +69,3 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
-
-fieldset {
-  display: grid;
-  gap: 1rem;
-}
-
-fieldset > * {
-  margin: auto;
-}
-
-.persons {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-}
-
-.person {
-  display: flex;
-  flex-direction: column;
-}
-
-.info {
-  font-size: 0.8rem;
-  margin-top: 0.5rem;
-  color: #646cff;
-}
