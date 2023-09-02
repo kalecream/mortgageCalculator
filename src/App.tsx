@@ -1,7 +1,7 @@
 import Form from './components/form';
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
-import './App.css'
+import './styles/global.scss';
 
 function App() {
 
