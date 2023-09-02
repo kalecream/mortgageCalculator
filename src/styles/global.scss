@@ -1,0 +1,211 @@
+@import './breakpoints';
+
+$body-font: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+$heading-font: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+$body-color: #242424;
+$text-color: #242424;
+$link-color: #646cff;
+$link-hover: #535bf2;
+$button-color: #1a1a1a;
+$button-bg-color: #646cff;
+$button-text-color: #ffffff;
+$button-hover: #535bf2;
+$button-hover-text: #ffffff;
+$button-hover-bg: #535bf2;
+
+$label-color: rgba($text-color, 0.8);
+$border-lines: rgba($text-color, 0.2);
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+:root {
+  font-family: $body-font;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color:$text-color;
+  background-color: $body-color;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+a {
+  font-weight: 500;
+  color: $link-color;
+  text-decoration: inherit;
+}
+a:hover {
+  color: $link-hover;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: $button-bg-color;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: $button-hover;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+button {
+  margin: 2rem 0 ;
+}
+
+fieldset fieldset {
+  border: none;
+}
+
+fieldset legend {
+  margin: 0.5rem;
+  font-size: 1.8rem;
+}
+
+@media screen and (max-width: 768px) {
+  fieldset {
+    flex-direction: column;
+  }
+
+  .form-item {
+    width: 100%;
+    margin: 1rem auto;
+    font-size: 1.2rem;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  fieldset {
+    flex-direction: row;
+  }
+
+  .form-item {
+    width: 33%;
+  }
+}
+
+fieldset {
+  min-height: 250px;
+  position: relative;
+  margin: 2.5rem auto;
+  border-radius: 5px;
+  border: dashed 1px $border-lines; ;
+  display: flex;
+  flex-wrap: wrap;
+  place-items: center;
+}
+
+fieldset > * {
+  margin: 0.5rem;
+}
+
+fieldset div input {
+  margin: 0 0.5rem;
+  text-align: center;
+}
+
+fieldset :hover {
+  cursor: pointer;
+}
+
+legend {
+  font-size: 1.2rem;
+  font-weight: semibold;
+}
+
+input {
+  border: none;
+  font-size: 1.3em;
+  font-weight: 400;
+  color: inherit;
+  transition: border-color 0.25s;
+}
+
+.category {
+  height: 100%;
+  height: auto;
+  margin: 2rem auto;
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.loan-terms {
+  display: flex;
+}
+
+.loan-terms input {
+  width: 100%;
+  text-align: center;
+}
+
+.form-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-item input {
+  width: fit-content;
+}
+
+.checkbox-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.checkbox-item label {
+  margin: 0 0.5rem;
+  font-size: 1rem;
+  color: $label-color;
+}
+
+.checkbox-item input {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+label {
+  color: var(--label-color);
+  font-size: 0.8rem;
+  
+}
