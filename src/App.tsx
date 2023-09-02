@@ -1,6 +1,5 @@
 import Form from './components/form';
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
+import houseLogo from './assets/house.svg'
 import './styles/global.scss';
 
 function App() {
