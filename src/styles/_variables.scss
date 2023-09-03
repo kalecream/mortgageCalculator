@@ -1,0 +1,31 @@
+$body-font: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
+$heading-font: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+$body-color: #fff;
+$text-color: #343434;
+$link-color: #000;
+$link-hover: #fed100;
+$button-color: #1a1a1a;
+$button-bg-color: #fed100;
+$button-text-color: #ffffff;
+$button-hover: #fff;
+$button-hover-text: #ffffff;
+$button-hover-bg: #000;
+
+$label-color: rgba($text-color, 0.8);
+$border-lines: rgba($text-color, 0.2);
+
+$user-input-color: #000;
+
+$warning-color: #ff0000;
+$success-color: #00ff00;
+$caution-color: #ffff00;
+
+$scrollbar-track: #f1f1f1;
+$scrollbar-thumb: #888;
+$scrollbar-thumb-hover: #555;
+$scrollbar-thumb-active: #000;
+$scrollbar-corner: #f1f1f1;
+$scrollbar-resizer: #f1f1f1;
+$scrollbar-width: 0.25rem;
+$scrollbar-radius: 0.5rem;

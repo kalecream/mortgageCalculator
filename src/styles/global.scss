@@ -1,35 +1,21 @@
-@import './breakpoints';
+@import "./breakpoints";
+@import "./mixins";
+@import "./variables";
+@import "./normalize";
 
-$body-font: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
-$heading-font: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
 
-$body-color: #242424;
-$text-color: #242424;
-$link-color: #646cff;
-$link-hover: #535bf2;
-$button-color: #1a1a1a;
-$button-bg-color: #646cff;
-$button-text-color: #ffffff;
-$button-hover: #535bf2;
-$button-hover-text: #ffffff;
-$button-hover-bg: #535bf2;
-
-$label-color: rgba($text-color, 0.8);
-$border-lines: rgba($text-color, 0.2);
 
 #root {
-  max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
 }
 
 :root {
-  font-family: $body-font;
   line-height: 1.5;
   font-weight: 400;
 
-  color:$text-color;
+  color: $text-color;
   background-color: $body-color;
 
   font-synthesis: none;
@@ -43,128 +29,161 @@ $border-lines: rgba($text-color, 0.2);
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  // outline: 1px dashed rgba(red, 0.2);
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  max-width: 1920px;
+  font-family: $body-font;
 }
 
 a {
   font-weight: 500;
   color: $link-color;
   text-decoration: inherit;
-}
-a:hover {
-  color: $link-hover;
+
+  &:hover {
+    color: $link-hover;
+  }
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: 3em;
+  font-weight: 200;
   line-height: 1.1;
 }
 
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
+  border-radius: 5px;
+  border: none;
   padding: 0.6em 1.2em;
-  font-size: 1em;
+  margin: 1rem 0;
   font-weight: 500;
   font-family: inherit;
   background-color: $button-bg-color;
   cursor: pointer;
   transition: border-color 0.25s;
-}
-button:hover {
-  border-color: $button-hover;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
 
-button {
-  margin: 2rem 0 ;
-}
-
-fieldset fieldset {
-  border: none;
-}
-
-fieldset legend {
-  margin: 0.5rem;
-  font-size: 1.8rem;
-}
-
-@media screen and (max-width: 768px) {
-  fieldset {
-    flex-direction: column;
+  &hover {
+    background-color: $button-hover-bg;
+    color: $button-hover-text;
   }
 
-  .form-item {
-    width: 100%;
-    margin: 1rem auto;
-    font-size: 1.2rem;
-  }
-}
-
-@media screen and (min-width: 768px) {
-  fieldset {
-    flex-direction: row;
-  }
-
-  .form-item {
-    width: 33%;
+  &:focus,
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.2);
   }
 }
 
 fieldset {
-  min-height: 250px;
   position: relative;
-  margin: 2.5rem auto;
+  margin: 1rem auto;
   border-radius: 5px;
-  border: dashed 1px $border-lines; ;
+  border: dashed 1px $border-lines;
   display: flex;
   flex-wrap: wrap;
   place-items: center;
+
+  & fieldset {
+    border: none;
+  }
+
+  & fieldset :hover {
+    cursor: pointer;
+  }
+
+  div input {
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  & legend {
+    font-size: 1.2rem;
+    margin: 0.05rem;
+  }
+
+  @include breakpoint-range($from: mobile, $to: tablet) {
+    flex-direction: column;
+  }
+
+  @include breakpoint-range($from: tablet, $to: desktopLarge) {
+    flex-direction: row;
+  }
 }
 
-fieldset > * {
-  margin: 0.5rem;
+.form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 
-fieldset div input {
-  margin: 0 0.5rem;
-  text-align: center;
-}
+.form-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-fieldset :hover {
-  cursor: pointer;
-}
+  & input {
+    max-width: 200px;
+    font-size: 1rem;
+  }
 
-legend {
-  font-size: 1.2rem;
-  font-weight: semibold;
+  @include breakpoint-range($from: mobile, $to: tablet) {
+    margin: 1rem auto;
+    font-size: 1.2rem;
+  }
+
+  @include breakpoint-range($from: tablet, $to: desktopLarge) {
+    margin: 0;
+  }
 }
 
 input {
   border: none;
-  font-size: 1.3em;
   font-weight: 400;
   color: inherit;
   transition: border-color 0.25s;
+
+  & label {
+    margin: 0.05rem;
+    color: var(--label-color);
+    font-size: 0.8rem;
+  }
+}
+
+.checkbox-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  & label {
+    margin: 0 0.5rem;
+    font-size: 0.75rem;
+    color: $label-color;
+  }
+
+  & input {
+    margin: 0 0.05rem;
+    font-size: 1rem;
+    color: $label-color;
+    height: 1.5rem;
+    width: 1.5rem;
+
+    &:checked {
+      background-color: $button-bg-color;
+    }
+  }
 }
 
 .category {
+  min-height: 150px;
   height: 100%;
-  height: auto;
-  margin: 2rem auto;
-  gap: 1rem;
+  float: left;
   display: flex;
   flex-direction: column;
+  place-items: center;
 }
 
 .loan-terms {
@@ -176,36 +195,74 @@ input {
   text-align: center;
 }
 
-.form-item {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.form {
+  max-width: 100%;
+  margin: 0 auto;
+   @include breakpoint-range($from: mobile, $to: tablet) {
+    flex-direction: column;
+  }
+
+  @include breakpoint-range($from: tablet, $to: desktopLarge) {
+    flex-direction: row;
+  }
 }
 
-.form-item input {
-  width: fit-content;
+.message {
+  width: 100%;
+  line-height: 1;
+  padding: 0.5rem;
+  color: $warning-color;
+
+  & > * {
+    margin: 0.5rem;
+  }
 }
 
-.checkbox-item {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.checkbox-item label {
-  margin: 0 0.5rem;
-  font-size: 1rem;
+footer {
+  margin-top: 1rem;
+  font-size: 0.8rem;
   color: $label-color;
 }
 
-.checkbox-item input {
-  height: 1.5rem;
-  width: 1.5rem;
+.button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+  gap: 1rem;
 }
 
-label {
-  color: var(--label-color);
-  font-size: 0.8rem;
-  
+.user-input {
+  border-bottom: 1px solid $border-lines;
+  color: $user-input-color;
 }
+
+::-webkit-scrollbar {
+  width: $scrollbar-width;
+  border-radius: $scrollbar-radius;
+}
+
+::-webkit-scrollbar-track {
+  background: $scrollbar-track;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $scrollbar-thumb;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: $scrollbar-thumb-hover;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: $scrollbar-thumb-active;
+}
+
+::-webkit-scrollbar-corner {
+  background: $scrollbar-corner;
+}
+
+::-webkit-scrollbar-resizer {
+  background: $scrollbar-resizer;
+}
+
