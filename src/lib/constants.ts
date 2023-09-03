@@ -1,7 +1,10 @@
 export const HousingCostRates = {
-    "realtor": 0.06,
-    "lawyer": 0.01,
-    "landTransferTax": 0.02,
+    realtor: 0.06,
+    legalFees: 0.01,
+    transferTax: 0.02,
+    stampDuty: 0.05,
+    salesAgreement: 0.01,
+    registrationFee: 0.01,
 };
 
 export const NHTInterestRates = {
