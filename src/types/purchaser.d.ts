@@ -37,8 +37,8 @@ interface HousingCosts {
 
 interface FormDetails {
   contributors: number;
-  persons: ContributorDetails[];
   house: HousingCosts;
+  persons: ContributorDetails[];
 }
 
 interface ContributorDetails {
@@ -47,8 +47,15 @@ interface ContributorDetails {
   birthYear: number;
   downPayment: number;
   amountToBorrow: number;
+  maxMortgage: number;
+  monthlyPayment: number;
   nht: NHTDetails;
   bank: BankDetails;
 }
 
-export type { FormDetails, ContributorDetails, NHTDetails, HousingCosts  }
+export type {
+  FormDetails,
+  ContributorDetails,
+  NHTDetails,
+  HousingCosts
+}
