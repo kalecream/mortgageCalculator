@@ -1,19 +1,18 @@
 import { useEffect, useState } from "react"; // eslint-disable-line no-unused-vars
 import { FormDetails } from "../types/purchaser"; // eslint-disable-line no-unused-vars
 import { currencyFormatter } from "../lib/currencyFormat";
-import { NHTInterestRates } from "../lib/constants";
-import house from "../assets/house.png";
-import person from "../assets/person.png";
+import { HousingCostRates, NHTInterestRates } from "../lib/constants";
+import { Footer } from "./footer";
 // import persons from "../assets/persons.png";
+import { GiFamilyHouse, GiPlayerBase } from "react-icons/gi";
 
 // TODO: Add tabs, amortization schedule, and more
 
 const Form = () => {
-
   const [formData, setFormData] = useState<FormDetails>({
     contributors: 1,
     house: {
-      cost: 27000000,
+      cost: 0,
       totalDeposit: 0,
       transferTax: 0.05,
       stampduty: 0.04,
@@ -25,10 +24,13 @@ const Form = () => {
     },
     persons: [
       {
-        salary: 150000,
-        birthYear: 1985,
-        downPayment: 4050000,
-        amountToBorrow: 20000000,
+        name: "John Doe",
+        salary: 0,
+        birthYear: 0,
+        downPayment: 0,
+        amountToBorrow: 0,
+        maxMortgage: 0,
+        monthlyPayment: 0,
         nht: {
           loan: false,
           interest: 0.04,
@@ -39,7 +41,7 @@ const Form = () => {
         },
         bank: {
           loan: false,
-          interest: 0.04,
+          interest: 0.09,
           loanTerm: 30,
           loanAmount: 0,
           loanMonthly: 0,
@@ -93,11 +95,29 @@ const Form = () => {
           (acc, person) => acc + person.downPayment,
           0
         ),
+        transferTax: formData.house.cost * HousingCostRates.transferTax,
+        stampduty: formData.house.cost * HousingCostRates.stampDuty,
+        legalFees: formData.house.cost * HousingCostRates.legalFees,
+        salesAgreement: formData.house.cost * HousingCostRates.salesAgreement,
+        registrationFee: formData.house.cost * HousingCostRates.registrationFee,
       },
       persons: formData.persons.map((person) => {
         return {
           ...person,
+          downPayment:
+            person.downPayment > formData.house.cost
+              ? formData.house.cost
+              : person.downPayment,
+          maxMortgage: person.salary * 0.33,
           amountToBorrow: formData.house.cost - person.downPayment,
+          monthlyPayment:
+            person.nht.loan && person.bank.loan
+              ? person.nht.loanMonthly + person.bank.loanMonthly
+              : person.nht.loan
+              ? person.nht.loanMonthly
+              : person.bank.loan
+              ? person.bank.loanMonthly
+              : 0,
           nht: {
             ...person.nht,
             loanAmount:
@@ -148,47 +168,98 @@ const Form = () => {
       <form>
         <fieldset>
           <div className="category">
-            <img src={house} width={250} />
-            <button>Purchasing Cost</button>
-          </div>
-          <div className="form-item">
-            <input
-              type="Housing Cost"
-              name="cost"
-              id="housing-cost"
-              value={formData.house?.cost}
-              onChange={onChangeHouse}
-            />
-            <label htmlFor="Housing Cost">Housing Cost</label>
-          </div>
-
-          <div className="form-item">
-            <input
-              type="string"
-              name="deposit"
-              id="housing-deposit"
-              min={0}
-              max={formData.house?.cost}
-              value={currencyFormatter(formData.house.totalDeposit)}
-            />
-            <label htmlFor="deposit">Total Deposit</label>
-
-            <div className="info-panel">
-              {formData.house?.totalDeposit &&
-                formData.house?.totalDeposit < 0.15 * formData.house?.cost && (
-                  <p>
-                    <strong>Minimum Deposit Needed</strong>
-                    <br />
-                    {currencyFormatter(formData.house?.cost * 0.15)}
-                  </p>
-                )}
+            <GiFamilyHouse size={100} />
+            <div className="options">
+              <div className="checkbox-item">
+                <input type="checkbox" name="closingCosts" id="closing-costs" />
+                <label htmlFor="closing-costs">
+                  Take Closing Costs from Down Payment
+                </label>
+              </div>
             </div>
+          </div>
+          <fieldset className="form">
+            <div className="form-item">
+              <input
+                type="Housing Cost"
+                name="cost"
+                id="housing-cost"
+                value={formData.house.cost}
+                onChange={onChangeHouse}
+                className="user-input"
+              />
+              <label htmlFor="Housing Cost">Housing Cost</label>
+            </div>
+
+            <div className="form-item">
+              <input
+                type="string"
+                name="deposit"
+                id="housing-deposit"
+                min={0}
+                max={formData.house?.cost}
+                value={currencyFormatter(formData.house.totalDeposit)}
+              />
+              <label htmlFor="deposit">Total Deposit</label>
+            </div>
+          </fieldset>
+          {formData.house.cost > 0 && (
+            <details className="form">
+              <summary>
+                {" "}
+                Closing Costs{' '}
+                <span>
+                  {currencyFormatter(
+                    formData.house.transferTax +
+                      formData.house.stampduty +
+                      formData.house.legalFees +
+                      formData.house.salesAgreement +
+                      formData.house.registrationFee
+                  )}
+                </span>
+              </summary>
+
+              <table>
+                <tbody>
+                  <tr>
+                    <td>Transfer Tax</td>
+                    <td>{currencyFormatter(formData.house.transferTax)}</td>
+                  </tr>
+                  <tr>
+                    <td>Stamp Duty</td>
+                    <td>{currencyFormatter(formData.house.stampduty)}</td>
+                  </tr>
+                  <tr>
+                    <td>Legal Fees</td>
+                    <td>{currencyFormatter(formData.house.legalFees)}</td>
+                  </tr>
+                  <tr>
+                    <td>Sales Agreement</td>
+                    <td>{currencyFormatter(formData.house.salesAgreement)}</td>
+                  </tr>
+                  <tr>
+                    <td>Registration Fee</td>
+                    <td>{currencyFormatter(formData.house.registrationFee)}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </details>
+          )}
+          <div className="message">
+            {formData.house?.totalDeposit &&
+              formData.house?.totalDeposit < 0.15 * formData.house?.cost && (
+                <p>
+                  <strong>Minimum Deposit Needed</strong>
+                  <br />
+                  {currencyFormatter(formData.house?.cost * 0.15)}
+                </p>
+              )}
           </div>
         </fieldset>
 
         <fieldset className="persons">
           <div className="category">
-            <img src={person} width={150} />
+            <GiPlayerBase size={100} />
             <div className="options">
               <div className="checkbox-item">
                 <input
@@ -211,7 +282,7 @@ const Form = () => {
                   }
                   checked={formData.persons[0]?.nht.loan}
                 />
-                <label htmlFor="nht-loan">Using NHT</label>
+                <label htmlFor="nht-loan">NHT</label>
               </div>
               <div className="checkbox-item">
                 <input
@@ -234,111 +305,145 @@ const Form = () => {
                   }
                   checked={formData.persons[0].bank.loan}
                 />
-                <label htmlFor="bank">Using Bank Loan</label>
+                <label htmlFor="bank">Bank Loan</label>
               </div>
             </div>
             <div id="add-person">
-              <button>+ Add Person</button>
+              <button> Add Contributor</button>
             </div>
           </div>
-
-          <fieldset>
-            <div className="form-item">
-              <input
-                type="text"
-                name="salary"
-                id="person-salary-1"
-                value={formData.persons[0].salary}
-                min={1}
-                max={99999999999}
-                onChange={onChangePerson}
-              />
-              <label htmlFor="salary">Monthly Income</label>
-            </div>
-
-            <div className="form-item">
-              <input
-                type="number"
-                name="birthYear"
-                id="person-birthYear-1"
-                step={1}
-                value={formData.persons[0].birthYear}
-                onChange={onChangePerson}
-              />
-              <label htmlFor="birthYear">Birth Year</label>
-            </div>
-
-            <div className="form-item">
-              <input
-                type="string"
-                name="AmountToBorrow"
-                value={currencyFormatter(formData.persons[0].amountToBorrow)}
-              />
-              <label htmlFor="AmountToBorrow">Amount Needed</label>
-            </div>
-          </fieldset>
-
-          {formData.persons[0].nht.loan && formData.persons[0].bank.loan && (
-            <div className="form-item">
-              <input
-                type="string"
-                name="age1"
-                id="age1"
-                value={currencyFormatter(
-                  formData.persons[0].nht.loanMonthly +
-                    formData.persons[0].bank.loanMonthly
-                )}
-              />
-              <label>Total Monthly Cost</label>
-            </div>
-          )}
-
-          {formData.persons[0].nht.loan == true && (
-            <fieldset>
-              <legend>NHT Loan Information</legend>
-
-              <div className="loan-terms">
+          <div className="form">
+            <fieldset className="form">
+              <div className="form-item">
                 <input
-                  type="number"
-                  name="loanAmount"
-                  id="nht-loan-amount"
-                  value={formData.persons[0].nht.loanAmount}
-                  onChange={onChangePersonNHT}
+                  type="text"
+                  name="salary"
+                  id="person-salary-1"
+                  value={formData.persons[0].salary}
+                  min={1}
+                  max={99999999999}
+                  onChange={onChangePerson}
                 />
-                <span>@</span>
-                <input
-                  type="string"
-                  name="interest"
-                  id="nht-interest"
-                  onChange={onChangePersonNHT}
-                  value={
-                    (formData.persons[0].nht.interest * 100).toFixed(2) + " %"
-                  }
-                />
-                <span> for </span>
-                <input
-                  type="string"
-                  name="loanTerm"
-                  id="nht-term"
-                  onChange={onChangePersonNHT}
-                  value={formData.persons[0].nht.loanTerm + " Years"}
-                />
+                <label htmlFor="salary">Monthly Income</label>
               </div>
+
+              {formData.persons[0].nht.loan || formData.persons[0].bank.loan ? (
+                <div className="form-item">
+                  <input
+                    type="number"
+                    name="birthYear"
+                    id="person-birthYear-1"
+                    step={1}
+                    value={formData.persons[0].birthYear}
+                    onChange={onChangePerson}
+                  />
+                  <label htmlFor="birthYear">Birth Year</label>
+                </div>
+              ) : null}
+
               <div className="form-item">
                 <input
                   type="string"
-                  name="loanMonthly"
-                  id="nht-monthly"
-                  value={currencyFormatter(formData.persons[0].nht.loanMonthly)}
+                  name="AmountToBorrow"
+                  value={currencyFormatter(formData.persons[0].amountToBorrow)}
                 />
-                <label>Monthly NHT payment</label>
+                <label htmlFor="AmountToBorrow">Amount Needed</label>
               </div>
+
+              {formData.persons[0].nht.loan &&
+                formData.persons[0].bank.loan && (
+                  <div className="form">
+                    <div className="form-item">
+                      <input
+                        type="string"
+                        name="age1"
+                        id="age1"
+                        value={currencyFormatter(
+                          formData.persons[0].nht.loanMonthly +
+                            formData.persons[0].bank.loanMonthly
+                        )}
+                      />
+                      <label>Total Monthly Cost</label>
+                    </div>
+                  </div>
+                )}
             </fieldset>
-          )}
+            <div className="message">
+              {formData.persons[0].nht.loanMonthly +
+                formData.persons[0].bank.loanMonthly >
+                formData.persons[0].salary * 0.33 &&
+                (formData.persons[0].nht.loan ||
+                  formData.persons[0].bank.loan) && (
+                  <p>
+                    Loan payments exceed 33% of monthly income. <br />
+                    Salary should be {">="}{" "}
+                    {currencyFormatter(
+                      (formData.persons[0].nht.loanMonthly +
+                        formData.persons[0].bank.loanMonthly) *
+                        3
+                    )}{" "}
+                    or House cost should be{" "}
+                    {currencyFormatter(
+                      formData.persons[0].maxMortgage /
+                        (formData.persons[0].nht.loan &&
+                        formData.persons[0].bank.loan
+                          ? formData.persons[0].nht.loanAmount +
+                            formData.persons[0].bank.loanAmount
+                          : formData.persons[0].nht.loanAmount ||
+                            formData.persons[0].bank.loanAmount) +
+                        formData.persons[0].downPayment
+                    )}
+                  </p>
+                )}
+            </div>
+          </div>
+          <details className="nht form">
+            {formData.persons[0].nht.loan == true && (
+              <div className="form">
+                <fieldset>
+                  <legend>
+                    NHT Loan:{" "}
+                    {currencyFormatter(formData.persons[0].nht.loanMonthly)}
+                  </legend>
+
+                  <div className="loan-terms">
+                    <input
+                      type="number"
+                      name="loanAmount"
+                      id="nht-loan-amount"
+                      value={formData.persons[0].nht.loanAmount}
+                      onChange={onChangePersonNHT}
+                    />
+                    <span>@</span>
+                    <input
+                      type="string"
+                      name="interest"
+                      id="nht-interest"
+                      onChange={onChangePersonNHT}
+                      value={
+                        (formData.persons[0].nht.interest * 100).toFixed(2) +
+                        " %"
+                      }
+                    />
+                    <span> for </span>
+                    <input
+                      type="string"
+                      name="loanTerm"
+                      id="nht-term"
+                      onChange={onChangePersonNHT}
+                      value={formData.persons[0].nht.loanTerm + " Years"}
+                    />
+                  </div>
+                </fieldset>
+              </div>
+            )}
+          </details>
 
           {formData.persons[0].bank.loan == true && (
             <fieldset>
-              <label>Bank Information</label>
+              <legend>
+                Bank: {currencyFormatter(formData.persons[0].bank.loanMonthly)}
+              </legend>
 
               <div className="loan-item">
                 <select>
@@ -372,24 +477,11 @@ const Form = () => {
                   value={formData.persons[0].bank.loanTerm + " Years"}
                 />
               </div>
-
-              <div className="form-item">
-                <input
-                  type="string"
-                  value={currencyFormatter(
-                    formData.persons[0].bank.loanMonthly
-                  )}
-                />
-                <label htmlFor="bank-monthly">Monthly Bank Payment</label>
-              </div>
             </fieldset>
           )}
         </fieldset>
       </form>
-      <div className="">
-        <button>Email mortgage breakdown</button>
-        <p>Based on the mortgage spreadsheet found at </p>
-      </div>
+      <Footer />
     </>
   );
 };
