@@ -1,0 +1,8 @@
+@mixin placeholder {
+    &::-webkit-input-placeholder {@content}
+    &::-moz-placeholder {@content}
+    &:-moz-placeholder {@content}
+    &:-ms-input-placeholder {@content}
+}
+
+// https://stackoverflow.com/questions/39850695/target-input-types-sass
