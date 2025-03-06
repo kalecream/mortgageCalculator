@@ -1,12 +1,14 @@
-$body-font: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
-$heading-font: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
+$body-font: "Proxima Nova", system-ui, Avenir, Helvetica, Arial, sans-serif;
+$heading-font: "Proxima Nova", system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+$primary: #7df3c2;;
 
 $body-color: #fff;
 $text-color: #343434;
 $link-color: #000;
-$link-hover: #fed100;
+$link-hover: $primary;
 $button-color: #1a1a1a;
-$button-bg-color: #fed100;
+$button-bg-color: #7df3c2;
 $button-text-color: #ffffff;
 $button-hover: #fff;
 $button-hover-text: #ffffff;

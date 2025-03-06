@@ -3,8 +3,6 @@
 @import "./variables";
 @import "./normalize";
 
-
-
 #root {
   margin: 0 auto;
   padding: 2rem;
@@ -14,10 +12,8 @@
 :root {
   line-height: 1.5;
   font-weight: 400;
-
   color: $text-color;
   background-color: $body-color;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -25,15 +21,22 @@
   -webkit-text-size-adjust: 100%;
 }
 
+@font-face {
+  font-family: "Proxima Nova";
+  font-style: normal;
+  src: url(../assets/fonts/ProximaNova.otf);
+}
+
 * {
   box-sizing: border-box;
-  margin: 0;
+  margin: auto;
   padding: 0;
-  // outline: 1px dashed rgba(red, 0.2);
+  // outline: 1px dashed rgba(red, 0.1);
 }
 
 body {
-  max-width: 1920px;
+  max-width: 55rem;
+  margin: 0 auto;
   font-family: $body-font;
 }
 
@@ -48,15 +51,16 @@ a {
 }
 
 h1 {
-  font-size: 3em;
+  font-size: 2.2em;
   font-weight: 200;
   line-height: 1.1;
+  text-align: center;
 }
 
 button {
   border-radius: 5px;
   border: none;
-  padding: 0.6em 1.2em;
+  padding: 1.5em 3em;
   margin: 1rem 0;
   font-weight: 500;
   font-family: inherit;
@@ -64,7 +68,7 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 
-  &hover {
+  &:hover {
     background-color: $button-hover-bg;
     color: $button-hover-text;
   }
@@ -79,6 +83,7 @@ button {
 fieldset {
   position: relative;
   margin: 1rem auto;
+  padding: 1rem 2rem;
   border-radius: 5px;
   border: dashed 1px $border-lines;
   display: flex;
@@ -179,7 +184,6 @@ input {
 
 .category {
   min-height: 150px;
-  height: 100%;
   float: left;
   display: flex;
   flex-direction: column;
@@ -196,9 +200,9 @@ input {
 }
 
 .form {
-  max-width: 100%;
   margin: 0 auto;
-   @include breakpoint-range($from: mobile, $to: tablet) {
+
+  @include breakpoint-range($from: mobile, $to: tablet) {
     flex-direction: column;
   }
 
@@ -210,7 +214,7 @@ input {
 .message {
   width: 100%;
   line-height: 1;
-  padding: 0.5rem;
+  padding: 1rem;
   color: $warning-color;
 
   & > * {
@@ -222,6 +226,8 @@ footer {
   margin-top: 1rem;
   font-size: 0.8rem;
   color: $label-color;
+  display: flex;
+  align-items: center;
 }
 
 .button-container {
@@ -266,3 +272,19 @@ footer {
   background: $scrollbar-resizer;
 }
 
+.closing-costs {
+
+
+  flex-wrap: wrap;
+
+
+  & div {
+    min-width: 50vw;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  & summary {
+    width: 80vw;
+  }
+}
