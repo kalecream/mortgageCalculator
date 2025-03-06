@@ -11,7 +11,7 @@ const Form = () => {
         contributors: 1,
         house: {
             cost: 25000000,
-            totalDeposit: 50000000,
+            totalDeposit: 5000000,
             transferTax: 0.05,
             stampduty: 0.04,
             legalFees: 0.03,
@@ -143,10 +143,13 @@ const Form = () => {
             house: {
                 ...formData.house,
                 cost: formData.house.cost,
-                totalDeposit: formData.persons.reduce(
-                    (acc, person) => acc + person.downPayment,
-                    0
-                ),
+                totalDeposit:
+                    formData.persons.length > 1
+                        ? formData.persons.reduce(
+                              (acc, person) => acc + person.downPayment,
+                              0
+                          )
+                        : formData.house.totalDeposit,
                 transferTax: formData.house.cost * HousingCostRates.transferTax,
                 stampduty: formData.house.cost * HousingCostRates.stampDuty,
                 legalFees: formData.house.cost * HousingCostRates.legalFees,
@@ -228,23 +231,6 @@ const Form = () => {
             <Footer />
             <form>
                 <fieldset>
-                    <div className="category">
-                        <div className="options">
-                            <div className="checkbox-item">
-                                <input
-                                    type="checkbox"
-                                    name="closingCosts"
-                                    id="closing-costs"
-                                />
-                                <label
-                                    htmlFor="closing-costs"
-                                    style={{ maxWidth: "10rem" }}
-                                >
-                                    Take Closing Costs from Deposit
-                                </label>
-                            </div>
-                        </div>
-                    </div>
                     <fieldset className="form">
                         <div className="form-item">
                             <input
@@ -265,27 +251,32 @@ const Form = () => {
                                 id="housing-deposit"
                                 min={0}
                                 max={formData.house?.cost}
-                                value={formData.house.totalDeposit}
+                                value={formatCurrency(
+                                    formData.house.totalDeposit
+                                )}
+                                className="user-input"
+                                onChange={(e) =>
+                                    onChangeHouse(e, "totalDeposit")
+                                }
                             />
-                            <label htmlFor="deposit">Total Deposit</label>
+                            <label htmlFor="deposit">Deposit</label>
                         </div>
                     </fieldset>
                     {formData.house.cost > 0 && (
-                        <details open className="form closing-costs">
-                            <summary>
-                              <p>
-                                Closing Costs
-                                <span>
-                                    {currencyFormatter(
-                                        formData.house.transferTax +
-                                            formData.house.stampduty +
-                                            formData.house.legalFees +
-                                            formData.house.salesAgreement +
-                                            formData.house.registrationFee
-                                    )}
-                                </span>
+                        <div className="form closing-costs">
+                          
+                                <p>
+                                    <b>Closing Costs</b> {" "}
+                                    <span>
+                                        {currencyFormatter(
+                                            formData.house.transferTax +
+                                                formData.house.stampduty +
+                                                formData.house.legalFees +
+                                                formData.house.salesAgreement +
+                                                formData.house.registrationFee
+                                        )}
+                                    </span>
                                 </p>
-                            </summary>
 
                             <div>
                                 <td>Transfer Tax</td>
@@ -327,8 +318,13 @@ const Form = () => {
                                     )}
                                 </td>
                             </div>
-                        </details>
+                        </div>
                     )}
+                    {formData.house && <p>Total Deposit<br/>{formatCurrency(formData.house.totalDeposit+ formData.house.transferTax +
+                                                formData.house.stampduty +
+                                                formData.house.legalFees +
+                                                formData.house.salesAgreement +
+                                                formData.house.registrationFee)}</p>}
                     <div className="message">
                         {formData.house?.totalDeposit &&
                             formData.house?.totalDeposit <
@@ -504,7 +500,7 @@ const Form = () => {
                                 )}
                         </div>
                     </div>
-                    <details className="nht form">
+                    <div className="nht form">
                         {formData.persons[0].nht.loan == true && (
                             <div className="form">
                                 <fieldset>
@@ -554,7 +550,7 @@ const Form = () => {
                                 </fieldset>
                             </div>
                         )}
-                    </details>
+                    </div>
 
                     {formData.persons[0].bank.loan == true && (
                         <fieldset>
