@@ -23,9 +23,9 @@ const Form = () => {
         persons: [
             {
                 name: "John Doe",
-                salary: 120000,
-                birthYear: 0,
-                downPayment: 0,
+                salary: 130000,
+                birthYear: 1995,
+                downPayment: 5000000,
                 amountToBorrow: 0,
                 maxMortgage: 0,
                 monthlyPayment: 0,
@@ -168,7 +168,7 @@ const Form = () => {
                     maxMortgage: person.salary * 0.33,
                     amountToBorrow: formData.house.cost - person.downPayment,
                     monthlyPayment:
-                        person.nht.loan && person.bank.loan
+                        person.nht.loan &&  person.bank.loan
                             ? person.nht.loanMonthly + person.bank.loanMonthly
                             : person.nht.loan
                             ? person.nht.loanMonthly
