@@ -2,11 +2,11 @@ import DownloadPDF from "./DownloadPDF";
 
 export const Footer = () => {
     return (
-        <footer className="footer">
+        <footer>
             <DownloadPDF />
             <p>
                 Made by <a href="https://www.yunghigue.com/">Yung Higue</a>{" "}
-                based on a spreadsheet from{" "}
+                based on a spreadsheet at{" "}
                 <a href="https://financialcentsibility.com/calculators/">
                     Financial Centsibility.
                 </a>
