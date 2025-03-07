@@ -263,7 +263,7 @@ const Form = () => {
                     <img src={Logo} width={55} />
                 </a>
                 <div className="credit">
-                    <h1>Mortgage Calc</h1>
+                    <h1>Mortgage</h1>
                     <p>
                         Based on a spreadsheet at
                         <br />
@@ -289,8 +289,8 @@ const Form = () => {
 
                     {formData.house.cost > 0 && (
                         <>
-                            <p>
-                                <span>
+                            <div className="form-item">
+                                <h1>
                                     {currencyFormatter(
                                         formData.house.transferTax +
                                             formData.house.stampduty +
@@ -298,49 +298,49 @@ const Form = () => {
                                             formData.house.salesAgreement +
                                             formData.house.registrationFee
                                     )}
-                                </span>
-                                <b>Closing Costs</b>{" "}
-                            </p>
+                                </h1>
+                                <p>Closing Costs</p>
+                            </div>
                             <div className="closing-costs">
-                                <div>
-                                    <td>Transfer Tax</td>
-                                    <td>
+                                <div className="form-item">
+                                    <h2>
                                         {currencyFormatter(
                                             formData.house.transferTax
                                         )}
-                                    </td>
+                                    </h2>
+                                    <p>Transfer Tax</p>
                                 </div>
-                                <div>
-                                    <td>Stamp Duty</td>
-                                    <td>
+                                <div className="form-item">
+                                    <p>Stamp Duty</p>
+                                    <h2>
                                         {currencyFormatter(
                                             formData.house.stampduty
                                         )}
-                                    </td>
+                                    </h2>
                                 </div>
-                                <div>
-                                    <td>Legal Fees</td>
-                                    <td>
+                                <div className="form-item">
+                                    <p>Legal Fees</p>
+                                    <h2>
                                         {currencyFormatter(
                                             formData.house.legalFees
                                         )}
-                                    </td>
+                                    </h2>
                                 </div>
-                                <div>
-                                    <td>Sales Agreement</td>
-                                    <td>
+                                <div className="form-item">
+                                    <p>Sales Agreement</p>
+                                    <h2>
                                         {currencyFormatter(
                                             formData.house.salesAgreement
                                         )}
-                                    </td>
+                                    </h2>
                                 </div>
-                                <div>
-                                    <td>Registration Fee</td>
-                                    <td>
+                                <div className="form-item">
+                                    <p>Registration Fee</p>
+                                    <h2>
                                         {currencyFormatter(
                                             formData.house.registrationFee
                                         )}
-                                    </td>
+                                    </h2>
                                 </div>
                             </div>
                         </>
