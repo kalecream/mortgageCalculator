@@ -189,11 +189,11 @@ input {
 footer {
   max-width: 60vw;
   margin: 1rem 0;
-  font-size: 0.8rem;
+  gap: 2rem;
+  font-size: 0.875rem;
   color: $label-color;
   display: flex;
   align-items: center;
-  justify-content: space-between;
 }
 
 .impt {
@@ -236,8 +236,17 @@ footer {
   margin: 3rem auto;
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+
   gap: 2rem;
+
+  @include breakpoint-range($from: mobile, $to: tablet) {
+    grid-template-columns: 1fr;
+  }
+
+  @include breakpoint-range($from: tablet, $to: desktopLarge) {
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 0 1rem;
+  }
 
   & div {
     gap: 1rem;
