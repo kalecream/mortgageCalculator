@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Papa from "papaparse";
 import { FormDetails } from "../types/purchaser";
 import { currencyFormatter, parseCurrency } from "../lib/currencyFormat";
 import { HousingCostRates, NHTInterestRates } from "../lib/constants";
@@ -185,32 +184,6 @@ const Form = () => {
         }));
     };
 
-    const downloadCSV = () => {
-        const data = [];
-
-        const houseData = {
-            ...formData.house,
-            contributors: formData.contributors,
-        };
-        data.push(houseData);
-
-        formData.persons.forEach((person) => {
-            const personData = {
-                ...person,
-                nht: JSON.stringify(person.nht),
-                bank: JSON.stringify(person.bank),
-            };
-            data.push(personData);
-        });
-
-        const csv = Papa.unparse(data);
-        const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = "formData.csv";
-        link.click();
-    };
-
     useEffect(() => {
         setFormData({
             ...formData,
@@ -240,7 +213,10 @@ const Form = () => {
                 downPayment: Math.min(person.downPayment, formData.house.cost),
                 maxMortgage: person.salary * 0.33,
                 amountToBorrow:
-                    formData.house.cost - formData.house.totalDeposit - person.nht.loanAmount + person.bank.loanAmount,
+                    formData.house.cost -
+                    formData.house.totalDeposit -
+                    person.nht.loanAmount +
+                    person.bank.loanAmount,
                 monthlyPayment:
                     (person.nht.loan ? person.nht.loanMonthly : 0) +
                     (person.bank.loan ? person.bank.loanMonthly : 0),
@@ -283,7 +259,6 @@ const Form = () => {
         <>
             <aside>
                 <DownloadPDF />
-                <button onClick={downloadCSV}>Download CSV</button>
                 <a href="https://www.yunghigue.com/">
                     <img src={Logo} width={60} />
                 </a>
@@ -314,62 +289,60 @@ const Form = () => {
 
                     {formData.house.cost > 0 && (
                         <>
-                        <p>
-                        <span>
-                            {currencyFormatter(
-                                formData.house.transferTax +
-                                    formData.house.stampduty +
-                                    formData.house.legalFees +
-                                    formData.house.salesAgreement +
-                                    formData.house.registrationFee
-                            )}
-                        </span>
-                        <b>Closing Costs</b>{" "}
-                    </p>
-                        <div className="closing-costs">
-                            
-
-                            <div>
-                                <td>Transfer Tax</td>
-                                <td>
+                            <p>
+                                <span>
                                     {currencyFormatter(
-                                        formData.house.transferTax
+                                        formData.house.transferTax +
+                                            formData.house.stampduty +
+                                            formData.house.legalFees +
+                                            formData.house.salesAgreement +
+                                            formData.house.registrationFee
                                     )}
-                                </td>
+                                </span>
+                                <b>Closing Costs</b>{" "}
+                            </p>
+                            <div className="closing-costs">
+                                <div>
+                                    <td>Transfer Tax</td>
+                                    <td>
+                                        {currencyFormatter(
+                                            formData.house.transferTax
+                                        )}
+                                    </td>
+                                </div>
+                                <div>
+                                    <td>Stamp Duty</td>
+                                    <td>
+                                        {currencyFormatter(
+                                            formData.house.stampduty
+                                        )}
+                                    </td>
+                                </div>
+                                <div>
+                                    <td>Legal Fees</td>
+                                    <td>
+                                        {currencyFormatter(
+                                            formData.house.legalFees
+                                        )}
+                                    </td>
+                                </div>
+                                <div>
+                                    <td>Sales Agreement</td>
+                                    <td>
+                                        {currencyFormatter(
+                                            formData.house.salesAgreement
+                                        )}
+                                    </td>
+                                </div>
+                                <div>
+                                    <td>Registration Fee</td>
+                                    <td>
+                                        {currencyFormatter(
+                                            formData.house.registrationFee
+                                        )}
+                                    </td>
+                                </div>
                             </div>
-                            <div>
-                                <td>Stamp Duty</td>
-                                <td>
-                                    {currencyFormatter(
-                                        formData.house.stampduty
-                                    )}
-                                </td>
-                            </div>
-                            <div>
-                                <td>Legal Fees</td>
-                                <td>
-                                    {currencyFormatter(
-                                        formData.house.legalFees
-                                    )}
-                                </td>
-                            </div>
-                            <div>
-                                <td>Sales Agreement</td>
-                                <td>
-                                    {currencyFormatter(
-                                        formData.house.salesAgreement
-                                    )}
-                                </td>
-                            </div>
-                            <div>
-                                <td>Registration Fee</td>
-                                <td>
-                                    {currencyFormatter(
-                                        formData.house.registrationFee
-                                    )}
-                                </td>
-                            </div>
-                        </div>
                         </>
                     )}
 
@@ -478,6 +451,17 @@ const Form = () => {
                         </div>
                         <div className="category">
                             <div className="options">
+                                <input
+                                    className="tgl tgl-flip"
+                                    id="cb5"
+                                    type="checkbox"
+                                />
+                                <label
+                                    className="tgl-btn"
+                                    data-tg-off="Nope"
+                                    data-tg-on="Yeah!"
+                                    for="cb5"
+                                ></label>
                                 <div className="checkbox-item">
                                     <input
                                         type="checkbox"
