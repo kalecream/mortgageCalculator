@@ -240,7 +240,7 @@ const Form = () => {
                 downPayment: Math.min(person.downPayment, formData.house.cost),
                 maxMortgage: person.salary * 0.33,
                 amountToBorrow:
-                    formData.house.cost - formData.house.totalDeposit,
+                    formData.house.cost - formData.house.totalDeposit - person.nht.loanAmount + person.bank.loanAmount,
                 monthlyPayment:
                     (person.nht.loan ? person.nht.loanMonthly : 0) +
                     (person.bank.loan ? person.bank.loanMonthly : 0),
@@ -283,8 +283,7 @@ const Form = () => {
         <>
             <aside>
                 <DownloadPDF />
-                {/* <button onClick={downloadCSV}>Download CSV</button> */}
-
+                <button onClick={downloadCSV}>Download CSV</button>
                 <a href="https://www.yunghigue.com/">
                     <img src={Logo} width={60} />
                 </a>
@@ -314,19 +313,21 @@ const Form = () => {
                     </div>
 
                     {formData.house.cost > 0 && (
-                        <div className="form closing-costs">
-                            <p>
-                                <b>Closing Costs</b>{" "}
-                                <span>
-                                    {currencyFormatter(
-                                        formData.house.transferTax +
-                                            formData.house.stampduty +
-                                            formData.house.legalFees +
-                                            formData.house.salesAgreement +
-                                            formData.house.registrationFee
-                                    )}
-                                </span>
-                            </p>
+                        <>
+                        <p>
+                        <span>
+                            {currencyFormatter(
+                                formData.house.transferTax +
+                                    formData.house.stampduty +
+                                    formData.house.legalFees +
+                                    formData.house.salesAgreement +
+                                    formData.house.registrationFee
+                            )}
+                        </span>
+                        <b>Closing Costs</b>{" "}
+                    </p>
+                        <div className="closing-costs">
+                            
 
                             <div>
                                 <td>Transfer Tax</td>
@@ -369,6 +370,7 @@ const Form = () => {
                                 </td>
                             </div>
                         </div>
+                        </>
                     )}
 
                     <div>
@@ -435,43 +437,81 @@ const Form = () => {
                                 )}
                             </div>
                         </legend>
-                        <div className="legend">
-                            <div className="category">
-                                <div className="options">
-                                    <div className="checkbox-item">
-                                        <input
-                                            type="checkbox"
-                                            name="nht.loan"
-                                            id="nht-loan"
-                                            onChange={(e) =>
-                                                onNHTLoanChange(
-                                                    index,
-                                                    e.target.checked
-                                                )
-                                            }
-                                            checked={person.nht.loan}
-                                        />
-                                        <label htmlFor="nht-loan">NHT</label>
-                                    </div>
-                                    <div className="checkbox-item">
-                                        <input
-                                            className="checkbox"
-                                            type="checkbox"
-                                            name="bank.loan"
-                                            id="bank"
-                                            onChange={(e) =>
-                                                onBankLoanChange(
-                                                    index,
-                                                    e.target.checked
-                                                )
-                                            }
-                                            checked={person.bank.loan}
-                                        />
-                                        <label htmlFor="bank">Bank Loan</label>
-                                    </div>
+                        <div className="message">
+                            {formData.persons[index].nht.loanMonthly +
+                                formData.persons[index].bank.loanMonthly >
+                                formData.persons[index].salary * 0.33 &&
+                                (formData.persons[index].nht.loan ||
+                                    formData.persons[index].bank.loan) && (
+                                    <p>
+                                        Loan payments exceed 33% of monthly
+                                        income. <br />
+                                        Salary should be {">="}{" "}
+                                        {currencyFormatter(
+                                            (formData.persons[index].nht
+                                                .loanMonthly +
+                                                formData.persons[index].bank
+                                                    .loanMonthly) *
+                                                3
+                                        )}{" "}
+                                        or House cost should be{" "}
+                                        {currencyFormatter(
+                                            formData.persons[index]
+                                                .maxMortgage /
+                                                (formData.persons[index].nht
+                                                    .loan &&
+                                                formData.persons[index].bank
+                                                    .loan
+                                                    ? formData.persons[index]
+                                                          .nht.loanAmount +
+                                                      formData.persons[index]
+                                                          .bank.loanAmount
+                                                    : formData.persons[index]
+                                                          .nht.loanAmount ||
+                                                      formData.persons[index]
+                                                          .bank.loanAmount) +
+                                                formData.persons[index]
+                                                    .downPayment
+                                        )}
+                                    </p>
+                                )}
+                        </div>
+                        <div className="category">
+                            <div className="options">
+                                <div className="checkbox-item">
+                                    <input
+                                        type="checkbox"
+                                        name="nht.loan"
+                                        id="nht-loan"
+                                        onChange={(e) =>
+                                            onNHTLoanChange(
+                                                index,
+                                                e.target.checked
+                                            )
+                                        }
+                                        checked={person.nht.loan}
+                                    />
+                                    <label htmlFor="nht-loan">NHT</label>
+                                </div>
+                                <div className="checkbox-item">
+                                    <input
+                                        className="checkbox"
+                                        type="checkbox"
+                                        name="bank.loan"
+                                        id="bank"
+                                        onChange={(e) =>
+                                            onBankLoanChange(
+                                                index,
+                                                e.target.checked
+                                            )
+                                        }
+                                        checked={person.bank.loan}
+                                    />
+                                    <label htmlFor="bank">Bank Loan</label>
                                 </div>
                             </div>
                         </div>
+
                         <div className="form-item">
                             <input
                                 name="salary"
@@ -497,8 +537,7 @@ const Form = () => {
                         )}
 
                         <div>
-                            <div>
-                                <div className="form-item">
+                            {/* <div className="form-item">
                                     <input
                                         className="active-input"
                                         type="text"
@@ -516,132 +555,84 @@ const Form = () => {
                                     <label htmlFor="salary">
                                         Monthly Income
                                     </label>
-                                </div>
+                                </div> */}
 
-                                <div className="form-item">
-                                    <input
-                                        type="string"
-                                        name="deposit"
-                                        id="housing-deposit"
-                                        min={0}
-                                        max={formData.house?.cost}
-                                        value={currencyFormatter(
-                                            formData.persons[index].downPayment
-                                        )}
-                                        className="impt"
-                                        onChange={(e) =>
-                                            onChangeHouse(e, "downPayment")
-                                        }
-                                    />
-                                    <label htmlFor="deposit">Deposit</label>
-                                </div>
+                            <div className="form-item">
+                                <input
+                                    type="string"
+                                    name="deposit"
+                                    id="housing-deposit"
+                                    min={0}
+                                    max={formData.house?.cost}
+                                    value={currencyFormatter(
+                                        formData.persons[index].downPayment
+                                    )}
+                                    className="impt"
+                                    onChange={(e) =>
+                                        onChangeHouse(e, "downPayment")
+                                    }
+                                />
+                                <label htmlFor="deposit">Deposit</label>
+                            </div>
 
-                                {formData.persons[index].nht.loan ||
-                                    (formData.persons[index].bank.loan && (
+                            {formData.persons[index].nht.loan ||
+                                (formData.persons[index].bank.loan && (
+                                    <div className="form-item">
+                                        <input
+                                            type="number"
+                                            name="birthYear"
+                                            id="person-birthYear-1"
+                                            step={1}
+                                            value={
+                                                formData.persons[index]
+                                                    .birthYear
+                                            }
+                                            onChange={(e) =>
+                                                onChangePerson(
+                                                    index,
+                                                    e,
+                                                    "birthYear"
+                                                )
+                                            }
+                                        />
+                                        <label htmlFor="birthYear">
+                                            Birth Year
+                                        </label>
+                                    </div>
+                                ))}
+
+                            <div className="form-item">
+                                <input
+                                    type="string"
+                                    name="AmountToBorrow"
+                                    value={currencyFormatter(
+                                        formData.persons[index].amountToBorrow
+                                    )}
+                                />
+                                <label htmlFor="AmountToBorrow">
+                                    Amount Needed
+                                </label>
+                            </div>
+
+                            {formData.persons[index].nht.loan &&
+                                formData.persons[index].bank.loan && (
+                                    <div className="form">
                                         <div className="form-item">
                                             <input
-                                                type="number"
-                                                name="birthYear"
-                                                id="person-birthYear-1"
-                                                step={1}
-                                                value={
-                                                    formData.persons[index]
-                                                        .birthYear
-                                                }
-                                                onChange={(e) =>
-                                                    onChangePerson(
-                                                        index,
-                                                        e,
-                                                        "birthYear"
-                                                    )
-                                                }
-                                            />
-                                            <label htmlFor="birthYear">
-                                                Birth Year
-                                            </label>
-                                        </div>
-                                    ))}
-
-                                <div className="form-item">
-                                    <input
-                                        type="string"
-                                        name="AmountToBorrow"
-                                        value={currencyFormatter(
-                                            formData.persons[index]
-                                                .amountToBorrow
-                                        )}
-                                    />
-                                    <label htmlFor="AmountToBorrow">
-                                        Amount Needed
-                                    </label>
-                                </div>
-
-                                {formData.persons[index].nht.loan &&
-                                    formData.persons[index].bank.loan && (
-                                        <div className="form">
-                                            <div className="form-item">
-                                                <input
-                                                    type="string"
-                                                    name={`age-${index}`}
-                                                    id={`age-${index}`}
-                                                    value={currencyFormatter(
+                                                type="string"
+                                                name={`age-${index}`}
+                                                id={`age-${index}`}
+                                                value={currencyFormatter(
+                                                    formData.persons[index].nht
+                                                        .loanMonthly +
                                                         formData.persons[index]
-                                                            .nht.loanMonthly +
-                                                            formData.persons[
-                                                                index
-                                                            ].bank.loanMonthly
-                                                    )}
-                                                />
-                                                <label>
-                                                    Total Monthly Cost
-                                                </label>
-                                            </div>
+                                                            .bank.loanMonthly
+                                                )}
+                                            />
+                                            <label>Total Monthly Cost</label>
                                         </div>
-                                    )}
-                            </div>
-                            <div className="message">
-                                {formData.persons[index].nht.loanMonthly +
-                                    formData.persons[index].bank.loanMonthly >
-                                    formData.persons[index].salary * 0.33 &&
-                                    (formData.persons[index].nht.loan ||
-                                        formData.persons[index].bank.loan) && (
-                                        <p>
-                                            Loan payments exceed 33% of monthly
-                                            income. <br />
-                                            Salary should be {">="}{" "}
-                                            {currencyFormatter(
-                                                (formData.persons[index].nht
-                                                    .loanMonthly +
-                                                    formData.persons[index].bank
-                                                        .loanMonthly) *
-                                                    3
-                                            )}{" "}
-                                            or House cost should be{" "}
-                                            {currencyFormatter(
-                                                formData.persons[index]
-                                                    .maxMortgage /
-                                                    (formData.persons[index].nht
-                                                        .loan &&
-                                                    formData.persons[index].bank
-                                                        .loan
-                                                        ? formData.persons[
-                                                              index
-                                                          ].nht.loanAmount +
-                                                          formData.persons[
-                                                              index
-                                                          ].bank.loanAmount
-                                                        : formData.persons[
-                                                              index
-                                                          ].nht.loanAmount ||
-                                                          formData.persons[
-                                                              index
-                                                          ].bank.loanAmount) +
-                                                    formData.persons[index]
-                                                        .downPayment
-                                            )}
-                                        </p>
-                                    )}
-                            </div>
+                                    </div>
+                                )}
                         </div>
 
                         {formData.persons[index].nht.loan && (

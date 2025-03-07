@@ -1,13 +1,14 @@
-import Form from './components/form';
-import './styles/global.scss';
+import Form from "./components/form";
+import { Analytics } from "@vercel/analytics/react";
+import "./styles/global.scss";
 
 function App() {
-
-  return (
-    <main>
-     <Form />
-    </main>
-  )
+    return (
+        <main>
+            <Analytics />
+            <Form />
+        </main>
+    );
 }
 
-export default App
+export default App;
