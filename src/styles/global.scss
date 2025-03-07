@@ -9,7 +9,7 @@
 }
 
 :root {
-  line-height: 1.4;
+  line-height: 1.4rem;
   color: $text-color;
   background-color: $body-color;
   font-synthesis: none;
@@ -49,17 +49,11 @@ a {
   }
 }
 
-h1 {
-  font-size: 2em;
-  line-height: 1.1;
-  text-align: center;
-}
-
 button {
   border-radius: 5px;
   border: none;
   padding: 1.5em 3em;
-  margin: 1rem 0;
+  margin: auto;
   background-color: $button-bg-color;
   cursor: pointer;
 
@@ -70,27 +64,27 @@ button {
 }
 
 fieldset {
-  position: relative;
   margin: 1rem auto;
-  padding: 0.5rem 0;
+  padding: 1rem 0;
+  border: 1px dashed $primary;
   border-radius: 5px;
-  border: dashed 1px $border-lines;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   place-items: center;
 
-  & fieldset {
-    border: none;
-  }
-
-  & fieldset:hover {
-    cursor: pointer;
+  & legend {
+    order: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
   }
 
   div input {
     margin: 0 auto;
     text-align: center;
+    font-size: 1.4rem;
   }
 
   @include breakpoint-range($from: mobile, $to: tablet) {
@@ -102,10 +96,8 @@ fieldset {
   }
 }
 
-.form {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+h1 {
+  // color: $primary;
 }
 
 .form-item {
@@ -122,6 +114,7 @@ input {
   border: none;
   max-width: 300px;
   font-size: 2rem;
+  color: $primary;
 }
 
 .checkbox-item {
@@ -189,25 +182,18 @@ input {
   }
 }
 
-footer {
-  max-width: 60vw;
+aside {
+  max-width: 60rem;
   width: 100%;
   gap: 2rem;
   font-size: 0.8rem;
-  color: $label-color;
+  opacity: 0.8;
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  & p {
-    text-align: center;
-    max-width: 15rem;
-  }
 }
 
 .impt {
-
-  font-size: 2rem;
   text-align: center;
   color: $user-input-color;
 }
@@ -242,11 +228,10 @@ footer {
 }
 
 .closing-costs {
-  margin: 3rem auto;
+  margin: 2rem auto;
   width: 100%;
   display: grid;
-
-  gap: 2rem;
+  gap: 1rem;
 
   @include breakpoint-range($from: mobile, $to: tablet) {
     grid-template-columns: 1fr;
@@ -262,5 +247,32 @@ footer {
     display: flex;
     text-align: start;
     justify-content: space-around;
+  }
+}
+
+.add-person {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.credit {
+  gap: 0.5rem;
+  text-align: center;
+  line-height: 1.1rem;
+}
+
+.name-box {
+  gap: 0;
+  display: flex;
+
+  & button {
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    place-items: center;
+    margin: auto;
   }
 }

@@ -1,14 +1,15 @@
 $body-font: "Proxima Nova", system-ui, Avenir, Helvetica, Arial, sans-serif;
 $heading-font: "Proxima Nova", system-ui, Avenir, Helvetica, Arial, sans-serif;
 
-$primary: #7df3c2;;
+$secondary: rgba(182, 253, 189, 0.8);
+$primary: rgba(71, 1, 56, 1);
 
 $body-color: #fff;
 $text-color: #343434;
 $link-color: #000;
 $link-hover: $primary;
 $button-color: #1a1a1a;
-$button-bg-color: #7df3c2;
+$button-bg-color: $secondary;
 $button-text-color: #ffffff;
 $button-hover: #fff;
 $button-hover-text: #ffffff;
