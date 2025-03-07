@@ -9,8 +9,7 @@
 }
 
 :root {
-  line-height: 1.5;
-  font-weight: 400;
+  line-height: 1.4;
   color: $text-color;
   background-color: $body-color;
   font-synthesis: none;
@@ -40,7 +39,6 @@ body {
 }
 
 a {
-  font-weight: 500;
   color: $link-color;
   text-decoration: inherit;
 
@@ -59,29 +57,20 @@ button {
   border-radius: 5px;
   border: none;
   padding: 1.5em 3em;
-  margin: 0.5rem 0;
-  font-weight: 500;
-  font-family: inherit;
+  margin: 1rem 0;
   background-color: $button-bg-color;
   cursor: pointer;
-  transition: border-color 0.25s;
 
   &:hover {
     background-color: $button-hover-bg;
     color: $button-hover-text;
-  }
-
-  &:focus,
-  &:focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.2);
   }
 }
 
 fieldset {
   position: relative;
   margin: 1rem auto;
-  padding: 1rem;
+  padding: 0.5rem 0;
   border-radius: 5px;
   border: dashed 1px $border-lines;
   display: flex;
@@ -93,18 +82,13 @@ fieldset {
     border: none;
   }
 
-  & fieldset :hover {
+  & fieldset:hover {
     cursor: pointer;
   }
 
   div input {
     margin: 0 auto;
     text-align: center;
-  }
-
-  & legend {
-    font-size: 1.2rem;
-    margin: 0.05rem;
   }
 
   @include breakpoint-range($from: mobile, $to: tablet) {
@@ -120,7 +104,6 @@ fieldset {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-around;
 }
 
 .form-item {
@@ -128,33 +111,15 @@ fieldset {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  & input {
-    max-width: 200px;
-    font-size: 1rem;
-  }
-
-  @include breakpoint-range($from: mobile, $to: tablet) {
-    margin: 1rem auto;
-    font-size: 1rem;
-  }
-
-  @include breakpoint-range($from: tablet, $to: desktopLarge) {
-    margin: 0;
-  }
+  color: var(--label-color);
+  font-size: 0.875rem;
+  opacity: 0.7;
 }
 
 input {
   border: none;
-  font-weight: 400;
-  color: inherit;
-  transition: border-color 0.25s;
-
-  & label {
-    margin: 0.05rem;
-    color: var(--label-color);
-    font-size: 0.7rem;
-  }
+  max-width: 300px;
+  font-size: 2rem;
 }
 
 .checkbox-item {
@@ -222,24 +187,19 @@ input {
 }
 
 footer {
-  margin-top: 1rem;
+  max-width: 60vw;
+  margin: 1rem 0;
   font-size: 0.8rem;
   color: $label-color;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
-.button-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  width: 100%;
-  gap: 1rem;
-}
+.impt {
 
-.user-input {
-  // border-bottom: 1px solid $border-lines;
-  font-size: 1.4rem;
+  font-size: 2rem;
+  text-align: center;
   color: $user-input-color;
 }
 
@@ -273,13 +233,16 @@ footer {
 }
 
 .closing-costs {
+  margin: 3rem auto;
+  width: 100%;
   display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
 
   & div {
     gap: 1rem;
     display: flex;
+    text-align: start;
     justify-content: space-around;
   }
 }

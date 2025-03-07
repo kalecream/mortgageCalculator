@@ -168,7 +168,7 @@ const Form = () => {
                     maxMortgage: person.salary * 0.33,
                     amountToBorrow: formData.house.cost - person.downPayment,
                     monthlyPayment:
-                        person.nht.loan &&  person.bank.loan
+                        person.nht.loan && person.bank.loan
                             ? person.nht.loanMonthly + person.bank.loanMonthly
                             : person.nht.loan
                             ? person.nht.loanMonthly
@@ -239,7 +239,7 @@ const Form = () => {
                                 id="housing-cost"
                                 value={formatCurrency(formData.house.cost)}
                                 onChange={(e) => onChangeHouse(e, "cost")}
-                                className="user-input"
+                                className="impt"
                             />
                             <label htmlFor="Housing Cost">Housing Cost</label>
                         </div>
@@ -254,7 +254,7 @@ const Form = () => {
                                 value={formatCurrency(
                                     formData.house.totalDeposit
                                 )}
-                                className="user-input"
+                                className="impt"
                                 onChange={(e) =>
                                     onChangeHouse(e, "totalDeposit")
                                 }
@@ -264,19 +264,18 @@ const Form = () => {
                     </fieldset>
                     {formData.house.cost > 0 && (
                         <div className="form closing-costs">
-                          
-                                <p>
-                                    <b>Closing Costs</b> {" "}
-                                    <span>
-                                        {currencyFormatter(
-                                            formData.house.transferTax +
-                                                formData.house.stampduty +
-                                                formData.house.legalFees +
-                                                formData.house.salesAgreement +
-                                                formData.house.registrationFee
-                                        )}
-                                    </span>
-                                </p>
+                            <p>
+                                <b>Closing Costs</b>{" "}
+                                <span>
+                                    {currencyFormatter(
+                                        formData.house.transferTax +
+                                            formData.house.stampduty +
+                                            formData.house.legalFees +
+                                            formData.house.salesAgreement +
+                                            formData.house.registrationFee
+                                    )}
+                                </span>
+                            </p>
 
                             <div>
                                 <td>Transfer Tax</td>
@@ -320,11 +319,23 @@ const Form = () => {
                             </div>
                         </div>
                     )}
-                    {formData.house && <p>Total Deposit<br/>{formatCurrency(formData.house.totalDeposit+ formData.house.transferTax +
-                                                formData.house.stampduty +
-                                                formData.house.legalFees +
-                                                formData.house.salesAgreement +
-                                                formData.house.registrationFee)}</p>}
+                    <div>
+                        {formData.house && (
+                            <p className="form-item">
+                                <span className="impt">
+                                    {formatCurrency(
+                                        formData.house.totalDeposit +
+                                            formData.house.transferTax +
+                                            formData.house.stampduty +
+                                            formData.house.legalFees +
+                                            formData.house.salesAgreement +
+                                            formData.house.registrationFee
+                                    )}
+                                </span><br/>
+                                <span>Total Deposit</span>
+                            </p>
+                        )}
+                    </div>
                     <div className="message">
                         {formData.house?.totalDeposit &&
                             formData.house?.totalDeposit <
@@ -403,10 +414,13 @@ const Form = () => {
                         <fieldset className="form">
                             <div className="form-item">
                                 <input
+                                    className="active-input"
                                     type="text"
                                     name="salary"
                                     id="person-salary-1"
-                                    value={formData.persons[0].salary}
+                                    value={formatCurrency(
+                                        formData.persons[0].salary
+                                    )}
                                     min={1}
                                     max={99999999999}
                                     onChange={onChangePerson}
