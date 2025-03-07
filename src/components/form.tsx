@@ -451,21 +451,11 @@ const Form = () => {
                         </div>
                         <div className="category">
                             <div className="options">
-                                <input
-                                    className="tgl tgl-flip"
-                                    id="cb5"
-                                    type="checkbox"
-                                />
-                                <label
-                                    className="tgl-btn"
-                                    data-tg-off="Nope"
-                                    data-tg-on="Yeah!"
-                                    for="cb5"
-                                ></label>
                                 <div className="checkbox-item">
                                     <input
                                         type="checkbox"
                                         name="nht.loan"
+                                        className="tgl tgl-flip"
                                         id="nht-loan"
                                         onChange={(e) =>
                                             onNHTLoanChange(
@@ -475,12 +465,17 @@ const Form = () => {
                                         }
                                         checked={person.nht.loan}
                                     />
-                                    <label htmlFor="nht-loan">NHT</label>
+                                    <label
+                                        htmlFor="nht-loan"
+                                        className="tgl-btn"
+                                        data-tg-off="No NHT Loan"
+                                        data-tg-on="NHT Loan"
+                                    />
                                 </div>
                                 <div className="checkbox-item">
                                     <input
-                                        className="checkbox"
                                         type="checkbox"
+                                        className="tgl tgl-flip"
                                         name="bank.loan"
                                         id="bank"
                                         onChange={(e) =>
@@ -491,7 +486,14 @@ const Form = () => {
                                         }
                                         checked={person.bank.loan}
                                     />
-                                    <label htmlFor="bank">Bank Loan</label>
+                                    <label
+                                        htmlFor="bank"
+                                        className="tgl-btn"
+                                        data-tg-off="No Bank Loan"
+                                        data-tg-on="Bank Loan"
+                                    >
+                                        Bank Loan
+                                    </label>
                                 </div>
                             </div>
                         </div>
