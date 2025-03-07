@@ -37,7 +37,7 @@ const DownloadPDF: React.FC<DownloadPDFProps> = ({
         <button
             onClick={handleDownloadPDF}
         >
-            Download as PDF
+            Download
         </button>
     );
 };
