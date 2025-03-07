@@ -50,43 +50,43 @@ const Form = () => {
         ],
     });
 
-    const formatCurrency = (value: number): string => {
-        return new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-        }).format(value);
-    };
-
     const parseCurrency = (value: string): number => {
         return parseFloat(value.replace(/[^0-9.]/g, ""));
     };
 
-    const onChangePerson = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
+    const onChangePerson = (
+        index: number,
+        e: React.ChangeEvent<HTMLInputElement>,
+        field: string
+    ) => {
+        const rawValue = parseCurrency(e.target.value);
         setFormData({
             ...formData,
-            persons: [
-                {
-                    ...formData.persons[0],
-                    [name]: value,
-                },
-            ],
+            persons: formData.persons.map((person, i) =>
+                i === index ? { ...person, [field]: rawValue } : person
+            ),
         });
     };
 
-    const onChangePersonNHT = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
+    const onChangePersonNHT = (
+        index: number,
+        e: React.ChangeEvent<HTMLInputElement>,
+        field: string
+    ) => {
+        const rawValue = parseCurrency(e.target.value);
         setFormData({
             ...formData,
-            persons: [
-                {
-                    ...formData.persons[0],
-                    nht: {
-                        ...formData.persons[0].nht,
-                        [name]: value,
-                    },
-                },
-            ],
+            persons: formData.persons.map((person, i) =>
+                i === index
+                    ? {
+                          ...person,
+                          nht: {
+                              ...person.nht,
+                              [field]: rawValue,
+                          },
+                      }
+                    : person
+            ),
         });
     };
 
@@ -237,30 +237,32 @@ const Form = () => {
                                 type="Housing Cost"
                                 name="cost"
                                 id="housing-cost"
-                                value={formatCurrency(formData.house.cost)}
+                                value={currencyFormatter(formData.house.cost)}
                                 onChange={(e) => onChangeHouse(e, "cost")}
                                 className="impt"
                             />
                             <label htmlFor="Housing Cost">Housing Cost</label>
                         </div>
 
-                        <div className="form-item">
-                            <input
-                                type="string"
-                                name="deposit"
-                                id="housing-deposit"
-                                min={0}
-                                max={formData.house?.cost}
-                                value={formatCurrency(
-                                    formData.house.totalDeposit
-                                )}
-                                className="impt"
-                                onChange={(e) =>
-                                    onChangeHouse(e, "totalDeposit")
-                                }
-                            />
-                            <label htmlFor="deposit">Deposit</label>
-                        </div>
+                        <div>
+                        {formData.house && (
+                            <p className="form-item">
+                                <span className="impt">
+                                    {currencyFormatter(
+                                        formData.house.totalDeposit +
+                                            formData.house.transferTax +
+                                            formData.house.stampduty +
+                                            formData.house.legalFees +
+                                            formData.house.salesAgreement +
+                                            formData.house.registrationFee
+                                    )}
+                                </span>
+                                <br />
+                                <span>Total Deposit</span>
+                            </p>
+                        )}
+                    </div>
+
                     </fieldset>
                     {formData.house.cost > 0 && (
                         <div className="form closing-costs">
@@ -319,23 +321,7 @@ const Form = () => {
                             </div>
                         </div>
                     )}
-                    <div>
-                        {formData.house && (
-                            <p className="form-item">
-                                <span className="impt">
-                                    {formatCurrency(
-                                        formData.house.totalDeposit +
-                                            formData.house.transferTax +
-                                            formData.house.stampduty +
-                                            formData.house.legalFees +
-                                            formData.house.salesAgreement +
-                                            formData.house.registrationFee
-                                    )}
-                                </span><br/>
-                                <span>Total Deposit</span>
-                            </p>
-                        )}
-                    </div>
+                    
                     <div className="message">
                         {formData.house?.totalDeposit &&
                             formData.house?.totalDeposit <
@@ -418,7 +404,7 @@ const Form = () => {
                                     type="text"
                                     name="salary"
                                     id="person-salary-1"
-                                    value={formatCurrency(
+                                    value={currencyFormatter(
                                         formData.persons[0].salary
                                     )}
                                     min={1}
@@ -427,6 +413,24 @@ const Form = () => {
                                 />
                                 <label htmlFor="salary">Monthly Income</label>
                             </div>
+
+                            <div className="form-item">
+                            <input
+                                type="string"
+                                name="deposit"
+                                id="housing-deposit"
+                                min={0}
+                                max={formData.house?.cost}
+                                value={currencyFormatter(
+                                    formData.house.totalDeposit
+                                )}
+                                className="impt"
+                                onChange={(e) =>
+                                    onChangeHouse(e, "totalDeposit")
+                                }
+                            />
+                            <label htmlFor="deposit">Deposit</label>
+                        </div>
 
                             {formData.persons[0].nht.loan ||
                             formData.persons[0].bank.loan ? (
