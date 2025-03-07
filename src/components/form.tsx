@@ -260,10 +260,10 @@ const Form = () => {
             <aside>
                 <DownloadPDF />
                 <a href="https://www.yunghigue.com/">
-                    <img src={Logo} width={60} />
+                    <img src={Logo} width={55} />
                 </a>
                 <div className="credit">
-                    <h1>Mortgage Calculator</h1>
+                    <h1>Mortgage Calc</h1>
                     <p>
                         Based on a spreadsheet at
                         <br />
@@ -410,6 +410,47 @@ const Form = () => {
                                 )}
                             </div>
                         </legend>
+                        <div className="category">
+                            <div className="checkbox-item">
+                                <input
+                                    type="checkbox"
+                                    name="nht.loan"
+                                    className="tgl tgl-flip"
+                                    id="nht-loan"
+                                    onChange={(e) =>
+                                        onNHTLoanChange(index, e.target.checked)
+                                    }
+                                    checked={person.nht.loan}
+                                />
+                                <label
+                                    htmlFor="nht-loan"
+                                    className="tgl-btn"
+                                    data-tg-off="No NHT Loan"
+                                    data-tg-on="NHT Loan"
+                                />
+                            </div>
+                            <div className="checkbox-item">
+                                <input
+                                    type="checkbox"
+                                    className="tgl tgl-flip"
+                                    name="bank.loan"
+                                    id="bank"
+                                    onChange={(e) =>
+                                        onBankLoanChange(
+                                            index,
+                                            e.target.checked
+                                        )
+                                    }
+                                    checked={person.bank.loan}
+                                />
+                                <label
+                                    htmlFor="bank"
+                                    className="tgl-btn"
+                                    data-tg-off="No Bank Loan"
+                                    data-tg-on="Bank Loan"
+                                />
+                            </div>
+                        </div>
                         <div className="message">
                             {formData.persons[index].nht.loanMonthly +
                                 formData.persons[index].bank.loanMonthly >
@@ -449,55 +490,6 @@ const Form = () => {
                                     </p>
                                 )}
                         </div>
-                        <div className="category">
-                            <div className="options">
-                                <div className="checkbox-item">
-                                    <input
-                                        type="checkbox"
-                                        name="nht.loan"
-                                        className="tgl tgl-flip"
-                                        id="nht-loan"
-                                        onChange={(e) =>
-                                            onNHTLoanChange(
-                                                index,
-                                                e.target.checked
-                                            )
-                                        }
-                                        checked={person.nht.loan}
-                                    />
-                                    <label
-                                        htmlFor="nht-loan"
-                                        className="tgl-btn"
-                                        data-tg-off="No NHT Loan"
-                                        data-tg-on="NHT Loan"
-                                    />
-                                </div>
-                                <div className="checkbox-item">
-                                    <input
-                                        type="checkbox"
-                                        className="tgl tgl-flip"
-                                        name="bank.loan"
-                                        id="bank"
-                                        onChange={(e) =>
-                                            onBankLoanChange(
-                                                index,
-                                                e.target.checked
-                                            )
-                                        }
-                                        checked={person.bank.loan}
-                                    />
-                                    <label
-                                        htmlFor="bank"
-                                        className="tgl-btn"
-                                        data-tg-off="No Bank Loan"
-                                        data-tg-on="Bank Loan"
-                                    >
-                                        Bank Loan
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
                         <div className="form-item">
                             <input
                                 name="salary"

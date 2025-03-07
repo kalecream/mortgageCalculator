@@ -138,10 +138,8 @@ input {
 }
 
 .category {
-  min-height: 150px;
   float: left;
   display: flex;
-  flex-direction: column;
   place-items: center;
 }
 
@@ -293,7 +291,7 @@ aside {
 	+ .tgl-btn {
 		outline: 0;
 		display: block;
-		width: 4em;
+		width: 10em;
 		height: 2em;
 		position: relative;
 		cursor: pointer;
@@ -325,7 +323,6 @@ aside {
 	+ .tgl-btn {
 		padding: 2px;
 		transition: all .2s ease;
-		font-family: sans-serif;
 		perspective: 100px;
 		&:after,
     &:before {
@@ -335,7 +332,7 @@ aside {
 			text-align: center;
 			position: absolute;
 			line-height: 2em;
-			font-weight: bold;
+			font-weight: 800;
 			color: #fff;
 			position: absolute;
 			top: 0;
