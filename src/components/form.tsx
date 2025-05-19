@@ -6,8 +6,6 @@ import { calculateMonthlyPayment } from "../lib/calculations";
 import DownloadPDF from "./DownloadPDF";
 import Logo from "../assets/ouroburos.svg";
 
-// TODO: Add tabs, amortization schedule
-
 const Form = () => {
     const [formData, setFormData] = useState<FormDetails>({
         contributors: 1,
@@ -147,7 +145,7 @@ const Form = () => {
             salary: 100000,
             birthYear: 1995,
             downPayment: 2500000,
-            amountToBorrow: 0,
+            amountToBorrow: formData.house.cost - formData.house.totalDeposit,
             maxMortgage: 0,
             monthlyPayment: 0,
             nht: {
@@ -215,8 +213,8 @@ const Form = () => {
                 amountToBorrow:
                     formData.house.cost -
                     formData.house.totalDeposit -
-                    person.nht.loanAmount +
-                    person.bank.loanAmount,
+                    (person.nht.loan ? person.nht.loanAmount : 0) -
+                    (person.bank.loan ? person.bank.loanAmount : 0),
                 monthlyPayment:
                     (person.nht.loan ? person.nht.loanMonthly : 0) +
                     (person.bank.loan ? person.bank.loanMonthly : 0),
